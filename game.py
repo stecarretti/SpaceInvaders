@@ -35,7 +35,7 @@ class StartScreen(ScreenObject):
         self.instructions = ['Commands',
                              'Move               -->    left and right arrow',
                              'Fire                 -->    space',
-                             'Constant fire  -->    down arrow',
+                             # 'Constant fire  -->    C',
                              'Pause             -->    up arrow',
                              'Unpause         -->    up arrow']
 
@@ -126,7 +126,7 @@ class Game(ScreenObject):
                 if event.type == pg.QUIT:
                     is_game_over = True
                 # detect when any key is pressed down
-                elif event.type == pg.KEYDOWN and not constant_fire:
+                elif event.type == pg.KEYDOWN: # and not constant_fire if player can't move while firing
                     # UP key is used to stop and unstop the game
                     if event.key == pg.K_UP:
                         pause = not pause
@@ -134,28 +134,28 @@ class Game(ScreenObject):
                             pg.mixer.music.pause()
                         else:
                             pg.mixer.music.unpause()
-                    elif event.key == pg.K_DOWN:
+                    elif event.key == pg.K_SPACE:
                         constant_fire = True
                         player_reloaded = True
                         pg.time.set_timer(player_reloaded_event, 0)
-                    elif event.key == pg.K_LEFT:
+                    if event.key == pg.K_LEFT:
                         direction = 1
                     elif event.key == pg.K_RIGHT:
                         direction = -1
-                    elif event.key == pg.K_SPACE:
-                        # Fire a bullet if the user clicks the space button
-                        bullet = Bullet(0)
-                        # Set the bullet so it is where the player is
-                        bullet.rect.x = player.x_pos + player.width / 2
-                        bullet.rect.y = player.y_pos
-                        # Add the bullet to the lists
-                        all_sprites_list.add(bullet)
-                        bullet_player_list.add(bullet)
+                    # elif event.key == pg.K_SPACE:
+                    #    # Fire a bullet if the user clicks the space button
+                    #    bullet = Bullet(0)
+                    #    # Set the bullet so it is where the player is
+                    #    bullet.rect.x = player.x_pos + player.width / 2
+                    #    bullet.rect.y = player.y_pos
+                    #    # Add the bullet to the lists
+                    #    all_sprites_list.add(bullet)
+                    #    bullet_player_list.add(bullet)
                 # detect when any key is released
                 elif event.type == pg.KEYUP:
                     if event.key == pg.K_RIGHT or pg.K_LEFT:
                         direction = 0
-                    if event.key == pg.K_DOWN:
+                    if event.key == pg.K_SPACE:
                         constant_fire = False
                 elif event.type == enemy_reloaded_event:
                     # when the reload timer runs out, reset it
@@ -169,8 +169,8 @@ class Game(ScreenObject):
             # Calculate mechanics for each bullet
             for bullet in bullet_player_list:
 
-                # If level is greater than 3, player can fire through the blocks
-                if level < 3.5:
+                # If level is greater than 8, player can fire through the blocks
+                if level < 8.5:
                     # See if it hit a block
                     block_hit_list = pg.sprite.spritecollide(bullet, block_list, False)
 
