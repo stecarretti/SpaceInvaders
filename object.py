@@ -24,7 +24,7 @@ class GameObject:
 
 class ScreenObject:
 
-    def __init__(self, img, title, width, height):
+    def __init__(self, icon_img, img, title, width, height):
         self.title = title
         self.width = width
         self.height = height
@@ -32,7 +32,9 @@ class ScreenObject:
         self.game_screen = pg.display.set_mode((self.width, self.height))
         self.game_screen.fill(WHITE_COLOR)
         pg.display.set_caption(self.title)
-
+        icon = pg.image.load(icon_img)
+        pg.display.set_icon(icon)
+        
         background_img = pg.image.load(img)
         self.image = pg.transform.scale(background_img, (self.width, self.height))
 

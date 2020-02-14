@@ -19,10 +19,10 @@ class Enemy(GameObject):
     def move(self, max_width, level):
         if self.x_pos <= 10:
             self.SPEED = abs(self.SPEED)
-            self.y_pos += self.height + 50 * level
+            self.y_pos += self.height + 15 * level
         elif self.x_pos > max_width - self.width - 10:
             self.SPEED = -abs(self.SPEED)
-            self.y_pos += self.height + 50 * level
+            self.y_pos += self.height + 15 * level
         self.x_pos += self.SPEED
         if self.y_pos >= 600:
             return True
@@ -30,14 +30,14 @@ class Enemy(GameObject):
             return False
 
     def detect_collision(self, bullet):
-        if self.y_pos > bullet.rect.y + bullet.height - self.height * 0.3:
+        if self.y_pos > bullet.rect.y + bullet.height - self.height * 0.15:
             return False
-        elif self.y_pos + self.height < bullet.rect.y + self.height * 0.3:
+        elif self.y_pos + self.height < bullet.rect.y + self.height * 0.15:
             return False
 
-        if self.x_pos > bullet.rect.x + bullet.width - self.height * 0.3:
+        if self.x_pos > bullet.rect.x + bullet.width - self.height * 0.15:
             return False
-        elif self.x_pos + self.width < bullet.rect.x + self.height * 0.3:
+        elif self.x_pos + self.width < bullet.rect.x + self.height * 0.15:
             return False
 
         return True

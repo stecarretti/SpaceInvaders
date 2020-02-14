@@ -13,8 +13,8 @@ class Leaderboard(ScreenObject):
 
     TICK_RATE = 60
 
-    def __init__(self, img, file, title, width, height):
-        super().__init__(img, title, width, height)
+    def __init__(self, icon_img, img, file, title, width, height):
+        super().__init__(icon_img, img, title, width, height)
         self.file = file
         self.df = pd.read_csv(file)
         self.df = self.df.sort_values(by=['Score'], ascending=False)

@@ -20,16 +20,21 @@ def main():
 
     pg.init()
 
-    start_screen = StartScreen(IMAGES_PATH + 'galaxy.jpg', SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT)
+    pg.mixer.music.load('sounds/background.wav')
+    pg.mixer.music.play(-1)
+
+    start_screen = StartScreen(IMAGES_PATH + 'shuttle.ico', IMAGES_PATH + 'galaxy.jpg', SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT)
     action = start_screen.get_action()
 
     while action != 3:
         if action == 0:
-            new_game = Game(file, IMAGES_PATH + 'galaxy.jpg', SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT)
+            new_game = Game(IMAGES_PATH + 'shuttle.ico', file, IMAGES_PATH + 'galaxy.jpg', SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT)
             new_game.run_game_loop(0, 0)
+            pg.mixer.music.load('sounds/background.wav')
+            pg.mixer.music.play(-1)
         elif action == 1:
             # show leaderboard
-            leaderboard = Leaderboard(IMAGES_PATH + 'galaxy.jpg', file, SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT)
+            leaderboard = Leaderboard(IMAGES_PATH + 'shuttle.ico', IMAGES_PATH + 'galaxy.jpg', file, SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT)
             leaderboard.draw()
         action = start_screen.get_action()
 

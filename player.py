@@ -52,7 +52,7 @@ class PlayerCharacter(GameObject):
     def detect_collision(self, bullet):
         if self.y_pos > bullet.rect.y + bullet.height - self.height * 0.33:
             return False
-        elif self.y_pos + self.height < bullet.rect.y + 3:
+        elif self.y_pos + self.height < bullet.rect.y + self.height * 0.2:
             return False
 
         if self.x_pos > bullet.rect.x + bullet.width - 3:
