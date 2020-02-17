@@ -94,12 +94,12 @@ class Game(ScreenObject):
         did_win = False
         direction = 0
         # Variables to control enemy's fire rate
-        enemy_reload_speed = 400 - round(80 * level)
+        enemy_reload_speed = max(400 - round(80 * level), 100)
         enemy_reloaded_event = pg.USEREVENT + 1
         enemy_reloaded = True
         # If True player fires automatically
         constant_fire = False
-        player_reload_speed = 150 - round(10 * level)
+        player_reload_speed = max(150 - round(10 * level), 80)
         player_reloaded_event = pg.USEREVENT + 2
         player_reloaded = True
         # If True game is paused
@@ -142,21 +142,12 @@ class Game(ScreenObject):
                         direction = 1
                     elif event.key == pg.K_RIGHT:
                         direction = -1
-                    # elif event.key == pg.K_SPACE:
-                    #    # Fire a bullet if the user clicks the space button
-                    #    bullet = Bullet(0)
-                    #    # Set the bullet so it is where the player is
-                    #    bullet.rect.x = player.x_pos + player.width / 2
-                    #    bullet.rect.y = player.y_pos
-                    #    # Add the bullet to the lists
-                    #    all_sprites_list.add(bullet)
-                    #    bullet_player_list.add(bullet)
                 # detect when any key is released
                 elif event.type == pg.KEYUP:
-                    if event.key == pg.K_RIGHT or pg.K_LEFT:
-                        direction = 0
                     if event.key == pg.K_SPACE:
                         constant_fire = False
+                    elif event.key == pg.K_RIGHT or pg.K_LEFT:
+                        direction = 0
                 elif event.type == enemy_reloaded_event:
                     # when the reload timer runs out, reset it
                     enemy_reloaded = True
@@ -169,8 +160,8 @@ class Game(ScreenObject):
             # Calculate mechanics for each bullet
             for bullet in bullet_player_list:
 
-                # If level is greater than 8, player can fire through the blocks
-                if level < 8.5:
+                # If level is greater than 100, player can fire through the blocks
+                if level <= 100:
                     # See if it hit a block
                     block_hit_list = pg.sprite.spritecollide(bullet, block_list, False)
 
@@ -246,6 +237,8 @@ class Game(ScreenObject):
                 # move enemies
                 for i, e in enumerate(enemies_list):
                     if e.move(self.width, level):
+                        pg.mixer.music.load('sounds/crash.wav')
+                        pg.mixer.music.play(0)
                         text = font.render('YOU LOST', True, WHITE_COLOR)
                         self.game_screen.blit(text, (540, 300))
                         self.add_score(score)

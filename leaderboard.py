@@ -16,8 +16,12 @@ class Leaderboard(ScreenObject):
     def __init__(self, icon_img, img, file, title, width, height):
         super().__init__(icon_img, img, title, width, height)
         self.file = file
-        self.df = pd.read_csv(file)
-        self.df = self.df.sort_values(by=['Score'], ascending=False)
+        try:
+            self.df = pd.read_csv(file, header=None)
+            self.df.columns = ['User', 'Score']
+            self.df = self.df.sort_values(by=['Score'], ascending=False)
+        except:
+            self.df = pd.DataFrame(columns=['User', 'Score'])
         self.back_button = ImageButton(IMAGES_PATH + 'arrow.png', 20, 20, 70, 70)
 
     def draw(self):

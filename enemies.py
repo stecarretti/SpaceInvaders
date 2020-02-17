@@ -8,6 +8,7 @@ class Enemy(GameObject):
 
     def __init__(self, image_path, level):
         self.SPEED += level
+        self.SPEED = min(self.SPEED, 5)
         self.width = 35
         self.height = 35
         super().__init__(image_path, 0, 0, self.width, self.height)
@@ -17,12 +18,13 @@ class Enemy(GameObject):
         self.y_pos = y
 
     def move(self, max_width, level):
+        decr = min(15 * level, 80)
         if self.x_pos <= 10:
             self.SPEED = abs(self.SPEED)
-            self.y_pos += self.height + 15 * level
+            self.y_pos += self.height + decr
         elif self.x_pos > max_width - self.width - 10:
             self.SPEED = -abs(self.SPEED)
-            self.y_pos += self.height + 15 * level
+            self.y_pos += self.height + decr
         self.x_pos += self.SPEED
         if self.y_pos >= 600:
             return True
