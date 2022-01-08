@@ -17,8 +17,8 @@ class Leaderboard(ScreenObject):
         super().__init__(icon_img, img, title, width, height)
         self.file = file
         try:
-            self.df = pd.read_csv(file, header=None)
-            self.df.columns = ['User', 'Score']
+            self.df = pd.read_csv(file)
+            # self.df.columns = ['User', 'Score']
             self.df = self.df.sort_values(by=['Score'], ascending=False)
         except:
             self.df = pd.DataFrame(columns=['User', 'Score'])
